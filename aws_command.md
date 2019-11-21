@@ -265,7 +265,8 @@ MyProjectLimitedAdminAccess.json
 }
 ```
 
-Creation d'une policy en ligne de commande
+Création d'une policy en ligne de commande
+
 ```
 aws iam create-policy --policy-name MyProjectLimitedAdminAccess --description "Grants Limited IAM administrator access" --policy-document file://MyProjectLimitedAdminAccess.json
 ```
@@ -384,13 +385,15 @@ aws iam attach-user-policy --user-name "mfaS3" --policy-arn "arn:aws:iam::065332
 
 [https://docs.aws.amazon.com/fr_fr/elasticloadbalancing/latest/application/tutorial-application-load-balancer-cli.html](https://docs.aws.amazon.com/fr_fr/elasticloadbalancing/latest/application/tutorial-application-load-balancer-cli.html)
 
-creation du vpc
+création du vpc
+
 ```
 aws ec2 create-vpc --cidr-block 10.0.0.0/16
 aws ec2 create-tags --resources "$vpcId" --tags Key=Name,Value="Simplon VPC"
 ```
 
-creation de subnet dans le vpc
+création de subnet dans le vpc
+
 ```
 aws ec2 create-subnet --vpc-id vpc-065121481416d3d6d --availability-zone=eu-west-1a --cidr-block 10.0.1.0/24
 aws ec2 create-tags --resources "subnet-06dd60661043fc274" --tags Key=Name,Value="Simplon Public AZa"
@@ -404,36 +407,41 @@ aws ec2 create-tags --resources "subnet-0733cfe7c80098812" --tags Key=Name,Value
 aws ec2 create-subnet --vpc-id vpc-065121481416d3d6d --availability-zone=eu-west-1b --cidr-block 10.0.4.0/24
 aws ec2 create-tags --resources "subnet-07238300b7b6ee637" --tags Key=Name,Value="Simplon Private AZb"
 ```
-------
 
 Lister le VPC à utiliser
+
 ```
 aws ec2 describe-vpcs
 ```
 res vpc-065121481416d3d6d
 
 Création de la clé
+
 ```
 ssh-keygen -t rsa -b 2048 -C "aws_simplon_test" -f ~/.ssh/aws_simplon_test
 ```
 
 Import de la clé dans AWS
+
 ```
 aws ec2 import-key-pair --key-name "aws_simplon_test" --public-key-material file://~/.ssh/aws_simplon_test.pub
 ```
 
 Création de l'IGW
+
 ```
 aws ec2 create-internet-gateway
 ```
 res: igw-09e3a5a91ea85f4f5
 
 Attache IGW to VPC
+
 ```
 aws ec2 attach-internet-gateway --vpc-id vpc-065121481416d3d6d --internet-gateway-id igw-09e3a5a91ea85f4f5
 ```
 
-Creation de la routing table
+Création de la routing table
+
 ```
 aws ec2 create-route-table --vpc-id vpc-065121481416d3d6d
 ```
@@ -444,7 +452,8 @@ res: rtb-0b3a7062d900aa4e8
 aws ec2 create-route --route-table-id rtb-0b3a7062d900aa4e8 --destination-cidr-block 0.0.0.0/0 --gateway-id igw-09e3a5a91ea85f4f5
 ```
 
-Verif :
+Vérification :
+
 ```
 aws ec2 describe-route-tables --route-table-id rtb-0b3a7062d900aa4e8
 {
@@ -505,12 +514,13 @@ aws ec2 associate-route-table  --subnet-id subnet-0210102fc9a4b3ab8 --route-tabl
 ```
 
 Donner des adresses IP publique dans le réseau public
+
 ```
 aws ec2 modify-subnet-attribute --subnet-id subnet-06dd60661043fc274 --map-public-ip-on-launch
 aws ec2 modify-subnet-attribute --subnet-id subnet-0210102fc9a4b3ab8 --map-public-ip-on-launch
 ```
 
-Creation du SG
+Création du SG
 
 ```
 aws ec2 create-security-group --group-name MySecurityGroup4LB --description "My security group for Load Balancer" --vpc-id vpc-065121481416d3d6d
@@ -528,6 +538,7 @@ aws ec2 authorize-security-group-ingress --group-id sg-0ece3dd882dc7fc5b --proto
 ```
 
 Récupérer les Subnets d'un VPC
+
 ```
 aws ec2 describe-subnets --filters "Name=vpc-id,Values=vpc-065121481416d3d6d"
 ```
@@ -552,22 +563,24 @@ curl http://169.254.169.254/latest/meta-data/instance-id > /var/www/html/index.h
 EOF
 ```
 
+Création de l'instance dans pub AZa
 
-Creation de l'instance dans pub AZa
 ```
 aws ec2 run-instances --image-id ami-040ba9174949f6de4 --count 1 --instance-type t2.micro --key-name aws_simplon_test --security-group-ids sg-0ece3dd882dc7fc5b --subnet-id subnet-06dd60661043fc274 --user-data file://tuning_ec2_as_lb.txt
 aws ec2 create-tags --resources "i-09ed1ce5a322cabfe" --tags Key=Name,Value="node1 AZa"
 ```
 res:i-09ed1ce5a322cabfe
 
-Creation de l'instance dans pub AZb
+Création de l'instance dans pub AZb
+
 ```
 aws ec2 run-instances --image-id ami-040ba9174949f6de4 --count 1 --instance-type t2.micro --key-name aws_simplon_test --security-group-ids sg-0ece3dd882dc7fc5b --subnet-id subnet-0210102fc9a4b3ab8 --user-data file://tuning_ec2_as_lb.txt
 aws ec2 create-tags --resources "i-0b72662e6d3481bbc" --tags Key=Name,Value="node2 AZb"
 ```
 res:i-0b72662e6d3481bbc
 
-Creation du load balancer
+Création du load balancer
+
 ```
 aws elbv2 create-load-balancer --name my-load-balancer  --subnets subnet-06dd60661043fc274 subnet-0210102fc9a4b3ab8 --security-groups sg-0ece3dd882dc7fc5b
 
@@ -575,7 +588,8 @@ aws elbv2 create-target-group --name my-targets --protocol HTTP --port 80 --vpc-
 ```
 res: arn:aws:elasticloadbalancing:eu-west-1:065332230902:targetgroup/my-targets/5d68a137ae5c0e0d
 
-Associate instance to LoadBalancer
+Associer l'instance au LoadBalancer
+
 ```
 aws elbv2 register-targets --target-group-arn arn:aws:elasticloadbalancing:eu-west-1:065332230902:targetgroup/my-targets/5d68a137ae5c0e0d --targets Id=i-09ed1ce5a322cabfe Id=i-0b72662e6d3481bbc
 ```
