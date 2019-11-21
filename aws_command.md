@@ -1,3 +1,22 @@
+---
+client: "Simplon"
+title: "Formation AWS"
+subtitle: "AWS from scratch"
+author: [Matthieu Fatrez, Etudiants Simlon]
+date: "21/11/2019"
+subject: "Commandes utiles pour la formation AWS"
+keywords: [formation, simplon, aws, cours]
+papersize: a4
+titletype: gekko
+language: "french"
+versionHistory:
+  - version: 1.0
+    date: 21/11/2019
+    author: Matthieu Fatrez
+    comment: Creation initiale
+
+...
+
 # IAM
 
 ## Commandes
