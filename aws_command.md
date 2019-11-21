@@ -61,6 +61,16 @@ Add User to group
 aws iam add-user-to-group --group-name "mongroupe" --user-name "matthieu"
 ```
 
+## Liens utiles
+
+* [https://policysim.aws.amazon.com](https://policysim.aws.amazon.com)
+* [https://awspolicygen.s3.amazonaws.com/policygen.html](https://awspolicygen.s3.amazonaws.com/policygen.html)
+
+* [https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html)
+* [https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html)
+* [https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_examples.html](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_examples.html)
+
+
 ## Policies examples
 
 ## Example 1
@@ -281,9 +291,6 @@ aws iam attach-user-policy --user-name "limitedAdmin" --policy-arn "arn:aws:iam:
 aws iam attach-user-policy --user-name "limitedAdmin" --policy-arn "arn:aws:iam::aws:policy/IAMReadOnlyAccess"
 ```
 
-https://policysim.aws.amazon.com
-https://awspolicygen.s3.amazonaws.com/policygen.html
-
 ## Ex 4
 
 aws iam create-user --user-name "mfaS3"
@@ -373,9 +380,8 @@ aws iam attach-user-policy --user-name "mfaS3" --policy-arn "arn:aws:iam::065332
 
 ## LoadBalancer
 
-https://docs.aws.amazon.com/fr_fr/elasticloadbalancing/latest/application/tutorial-application-load-balancer-cli.html
+[https://docs.aws.amazon.com/fr_fr/elasticloadbalancing/latest/application/tutorial-application-load-balancer-cli.html](https://docs.aws.amazon.com/fr_fr/elasticloadbalancing/latest/application/tutorial-application-load-balancer-cli.html)
 
-------
 creation du vpc
 ```
 aws ec2 create-vpc --cidr-block 10.0.0.0/16
@@ -525,7 +531,9 @@ aws ec2 describe-subnets --filters "Name=vpc-id,Values=vpc-065121481416d3d6d"
 ```
 
 Définition du user data /!\ "base64 my_script.txt >my_script_base64.txt"
-https://docs.aws.amazon.com/fr_fr/AWSEC2/latest/UserGuide/user-data.html
+
+[https://docs.aws.amazon.com/fr_fr/AWSEC2/latest/UserGuide/user-data.html](https://docs.aws.amazon.com/fr_fr/AWSEC2/latest/UserGuide/user-data.html)
+
 ```
 cat <<EOF > tuning_ec2_as_lb.txt
 #!/bin/bash
