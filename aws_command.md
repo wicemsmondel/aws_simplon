@@ -598,52 +598,34 @@ aws autoscaling describe-auto-scaling-groups --auto-scaling-group-name my-asg-fr
 aws autoscaling attach-load-balancers --auto-scaling-group-name my-asg-from-instance --load-balancer-names my-load-balancer
 ```
 
-
-
-
-
-
-
-
-
-
-
-# IAM
-
-terminer avec les Policy boundaries
-
-https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html
-https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html
-https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_examples.html
-
 # Compte / Organisation
 
 Parler de la landing zone et de towercontrol
 
 # AWS Control tower
 
-https://docs.aws.amazon.com/controltower/latest/userguide/what-is-control-tower.html
-https://docs.aws.amazon.com/controltower/latest/userguide/best-practices.html
+* [https://docs.aws.amazon.com/controltower/latest/userguide/what-is-control-tower.html](https://docs.aws.amazon.com/controltower/latest/userguide/what-is-control-tower.html)
+* [https://docs.aws.amazon.com/controltower/latest/userguide/best-practices.html](https://docs.aws.amazon.com/controltower/latest/userguide/best-practices.html)
 
 # Route53
 
 ## Contraintes et comportements DNS
 
-https://docs.aws.amazon.com/fr_fr/Route53/latest/DeveloperGuide/DNSBehavior.html
+[https://docs.aws.amazon.com/fr_fr/Route53/latest/DeveloperGuide/DNSBehavior.html](https://docs.aws.amazon.com/fr_fr/Route53/latest/DeveloperGuide/DNSBehavior.html)
 
 # Cloudwatch
 
-https://docs.aws.amazon.com/cloudwatch/
-https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html
+* [https://docs.aws.amazon.com/cloudwatch/](https://docs.aws.amazon.com/cloudwatch/)
+* [https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html)
 
 Surveillance basé sur des métrics remonté par l'infra ou même applicative si configuré
-
 
 cloudWatch récupère les logs des serveurs et/ou logs applicatifs, les métriques (hyperviseur/CPU/mémoire/...) et d’autres événements, le tout dans une console unique. Les infos peuvent être graphées et exploitées.
 
 # Cloudtrail
 
-https://docs.aws.amazon.com/cloudtrail/
-https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-user-guide.html
+* [https://docs.aws.amazon.com/cloudtrail/](https://docs.aws.amazon.com/cloudtrail/)
+
+* [https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-user-guide.html](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-user-guide.html)
 
 Gestion des événements. Genre de syslog linux mais applicable à la console AWS et toutes les actions pouvant y être faite.
