@@ -73,7 +73,7 @@ aws iam add-user-to-group --group-name "mongroupe" --user-name "matthieu"
 
 ## Policies examples
 
-## Example 1
+### Example 1
 
 Policy to deny IP Range
 
@@ -106,7 +106,7 @@ aws iam create-policy --policy-name AuthorizedIpRanges --description "Restrict b
 aws iam attach-user-policy --user-name "mfaS3" --policy-arn "arn:aws:iam::065332230902:policy/AuthorizedIpRanges"
 ```
 
-## Example 2
+### Example 2
 
 Do Nothing if MFA is not set
 ```
@@ -217,7 +217,7 @@ Do Nothing if MFA is not set
 }
 ```
 
-## Example 3
+### Example 3
 
 MyProjectLimitedAdminAccess.json
 ```
@@ -291,11 +291,13 @@ aws iam attach-user-policy --user-name "limitedAdmin" --policy-arn "arn:aws:iam:
 aws iam attach-user-policy --user-name "limitedAdmin" --policy-arn "arn:aws:iam::aws:policy/IAMReadOnlyAccess"
 ```
 
-## Ex 4
+### Example 4
 
+```
 aws iam create-user --user-name "mfaS3"
 aws iam create-access-key --user-name "mfaS3"
 aws iam create-login-profile --user-name "mfaS3" --password "MDPCompliquéMFAS3"
+```
 
 ListBucketAndRootAccessLevel.json "MonDirectory"
 ```
