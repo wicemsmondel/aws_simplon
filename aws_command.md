@@ -652,3 +652,67 @@ CloudWatch retrieves logs from servers and / or application logs, metrics (hyper
 * [https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-user-guide.html](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-user-guide.html)
 
 Event manager. A kind of linux syslog but applicable to the AWS console.
+
+# Boto3
+
+* [https://boto3.amazonaws.com/v1/documentation/api/latest/index.html](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)
+
+Boto est le SDK Amazon Web Services (AWS) pour Python. Il permet aux développeurs Python de créer, configurer et gérer des services AWS, tels que EC2 et S3. Boto fournit une API orientée objet facile à utiliser, ainsi qu'un accès de bas niveau aux services AWS.
+
+Example script pour créer un VPC:
+
+```buildoutcfg
+import json
+import boto3
+
+ec2_client = boto3.client('ec2')
+ec2_resource = boto3.resource('ec2')
+
+
+def createvpc(vpcname, vpccidr):
+
+    # test if vpc exists
+    response = ec2_client.describe_vpcs(
+        Filters=[
+            {
+                'Name': 'tag:Name',
+                'Values': [vpcname]
+            },
+            {
+                'Name': 'cidr-block-association.cidr-block',
+                'Values': [vpccidr]
+            },
+        ]
+    )
+    resp = response['Vpcs']
+    if resp:
+        print("VPC exists:")
+        print(json.dumps(resp, indent=4, sort_keys=True, default=str))
+    else:
+        # create vpc network
+        vpc = ec2_resource.create_vpc(CidrBlock=vpccidr)
+        print(json.dumps(vpc, indent=4, sort_keys=True, default=str))
+        vpc.create_tags(
+            Tags=[
+                {
+                    "Key": "Name",
+                    "Value": vpcname
+                }
+            ]
+        )
+        vpc.wait_until_available()
+
+        # check create target-group returned successfully
+        if vpc:
+            print("Successfully created VPC")
+        else:
+            print("Create target group failed")
+            exit()
+
+
+if __name__ == '__main__':
+    my_vpcname = 'vpc-simplon'
+    my_vpccidr = '172.168.0.0/16'
+    createvpc(my_vpcname, my_vpccidr)
+
+```
