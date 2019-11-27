@@ -1,32 +1,32 @@
 ---
 client: "Simplon"
-title: "Formation AWS"
+title: "AWS formation"
 subtitle: "AWS from scratch"
-author: [Matthieu Fatrez, Etudiants Simlon]
+author: [Matthieu Fatrez, Simplon students] 
 date: "21/11/2019"
-subject: "Commandes utiles pour la formation AWS"
-keywords: [formation, simplon, aws, cours]
+subject: "Useful commands for AWS formation"
+keywords: [formation, simplon, aws, course]
 papersize: a4
 titletype: gekko
-language: "french"
+language: "english"
 versionHistory:
   - version: 1.0
     date: 21/11/2019
     author: Matthieu Fatrez
-    comment: Creation initiale
+    comment: Initial creation
 
 ...
 
 # IAM
 
-## Commandes
+## Commands
 
 Create group
 ```
 aws iam create-group --group-name "mongroupe"
 ```
 
-List Group
+List groups
 ```
 aws iam list-groups
 ```
@@ -46,22 +46,22 @@ Create user
 aws iam create-user --user-name "matthieu"
 ```
 
-Create login Profile
+Create login profile
 ```
 aws iam create-login-profile --user-name "matthieu" --password "monpasswdcompliqué"
 ```
 
-Programmatic Access
+Programmatic access
 ```
 aws iam create-access-key --user-name "matthieu"
 ```
 
-Add User to group
+Add user to group
 ```
 aws iam add-user-to-group --group-name "mongroupe" --user-name "matthieu"
 ```
 
-## Liens utiles
+## Useful links
 
 * [https://policysim.aws.amazon.com](https://policysim.aws.amazon.com)
 * [https://awspolicygen.s3.amazonaws.com/policygen.html](https://awspolicygen.s3.amazonaws.com/policygen.html)
@@ -108,7 +108,7 @@ aws iam attach-user-policy --user-name "mfaS3" --policy-arn "arn:aws:iam::065332
 
 ### Example 2
 
-Do Nothing if MFA is not set
+Do nothing if MFA is not set
 ```
 {
   'Version': '2012-10-17',
@@ -265,13 +265,13 @@ MyProjectLimitedAdminAccess.json
 }
 ```
 
-Création d'une policy en ligne de commande
+Create policy
 
 ```
 aws iam create-policy --policy-name MyProjectLimitedAdminAccess --description "Grants Limited IAM administrator access" --policy-document file://MyProjectLimitedAdminAccess.json
 ```
 
-Create User
+Create user
 ```
 aws iam create-user --user-name "limitedAdmin"
 ```
@@ -281,7 +281,7 @@ Create Access Key for user
 aws iam create-access-key --user-name "limitedAdmin"
 ```
 
-Create Passwd
+Create password
 ```
 aws iam create-login-profile --user-name "limitedAdmin" --password "MDPCompliqué"
 ```
@@ -385,14 +385,14 @@ aws iam attach-user-policy --user-name "mfaS3" --policy-arn "arn:aws:iam::065332
 
 [https://docs.aws.amazon.com/fr_fr/elasticloadbalancing/latest/application/tutorial-application-load-balancer-cli.html](https://docs.aws.amazon.com/fr_fr/elasticloadbalancing/latest/application/tutorial-application-load-balancer-cli.html)
 
-création du vpc
+Create VPC
 
 ```
 aws ec2 create-vpc --cidr-block 10.0.0.0/16
 aws ec2 create-tags --resources "$vpcId" --tags Key=Name,Value="Simplon VPC"
 ```
 
-création de subnet dans le vpc
+Create subnet
 
 ```
 aws ec2 create-subnet --vpc-id vpc-065121481416d3d6d --availability-zone=eu-west-1a --cidr-block 10.0.1.0/24
@@ -408,39 +408,39 @@ aws ec2 create-subnet --vpc-id vpc-065121481416d3d6d --availability-zone=eu-west
 aws ec2 create-tags --resources "subnet-07238300b7b6ee637" --tags Key=Name,Value="Simplon Private AZb"
 ```
 
-Lister le VPC à utiliser
+List VPCs
 
 ```
 aws ec2 describe-vpcs
 ```
 res vpc-065121481416d3d6d
 
-Création de la clé
+Create key
 
 ```
 ssh-keygen -t rsa -b 2048 -C "aws_simplon_test" -f ~/.ssh/aws_simplon_test
 ```
 
-Import de la clé dans AWS
+Import key
 
 ```
 aws ec2 import-key-pair --key-name "aws_simplon_test" --public-key-material file://~/.ssh/aws_simplon_test.pub
 ```
 
-Création de l'IGW
+Create internet gateway
 
 ```
 aws ec2 create-internet-gateway
 ```
 res: igw-09e3a5a91ea85f4f5
 
-Attache IGW to VPC
+Attach IGW to VPC
 
 ```
 aws ec2 attach-internet-gateway --vpc-id vpc-065121481416d3d6d --internet-gateway-id igw-09e3a5a91ea85f4f5
 ```
 
-Création de la routing table
+Create routing table
 
 ```
 aws ec2 create-route-table --vpc-id vpc-065121481416d3d6d
@@ -452,7 +452,7 @@ res: rtb-0b3a7062d900aa4e8
 aws ec2 create-route --route-table-id rtb-0b3a7062d900aa4e8 --destination-cidr-block 0.0.0.0/0 --gateway-id igw-09e3a5a91ea85f4f5
 ```
 
-Vérification :
+Verification :
 
 ```
 aws ec2 describe-route-tables --route-table-id rtb-0b3a7062d900aa4e8
@@ -484,7 +484,7 @@ aws ec2 describe-route-tables --route-table-id rtb-0b3a7062d900aa4e8
 }
 ```
 
-Obtenir la liste des Subnets :
+List subnets
 
 ```
 aws ec2 describe-subnets --filters "Name=vpc-id,Values=vpc-065121481416d3d6d" --query 'Subnets[*].{ID:SubnetId,CIDR:CidrBlock}'
@@ -513,14 +513,14 @@ aws ec2 associate-route-table  --subnet-id subnet-06dd60661043fc274 --route-tabl
 aws ec2 associate-route-table  --subnet-id subnet-0210102fc9a4b3ab8 --route-table-id rtb-0b3a7062d900aa4e8
 ```
 
-Donner des adresses IP publique dans le réseau public
+Map public IP in public network
 
 ```
 aws ec2 modify-subnet-attribute --subnet-id subnet-06dd60661043fc274 --map-public-ip-on-launch
 aws ec2 modify-subnet-attribute --subnet-id subnet-0210102fc9a4b3ab8 --map-public-ip-on-launch
 ```
 
-Création du SG
+Create security group
 
 ```
 aws ec2 create-security-group --group-name MySecurityGroup4LB --description "My security group for Load Balancer" --vpc-id vpc-065121481416d3d6d
@@ -537,13 +537,12 @@ aws ec2 authorize-security-group-ingress --group-id sg-0ece3dd882dc7fc5b --proto
 aws ec2 authorize-security-group-ingress --group-id sg-0ece3dd882dc7fc5b --protocol tcp --port 443 --cidr 0.0.0.0/0
 ```
 
-Récupérer les Subnets d'un VPC
-
+List subnets from a specific VPC
 ```
 aws ec2 describe-subnets --filters "Name=vpc-id,Values=vpc-065121481416d3d6d"
 ```
 
-Définition du user data /!\ "base64 my_script.txt >my_script_base64.txt"
+User data declaration /!\ "base64 my_script.txt >my_script_base64.txt"
 
 [https://docs.aws.amazon.com/fr_fr/AWSEC2/latest/UserGuide/user-data.html](https://docs.aws.amazon.com/fr_fr/AWSEC2/latest/UserGuide/user-data.html)
 
@@ -563,7 +562,7 @@ curl http://169.254.169.254/latest/meta-data/instance-id > /var/www/html/index.h
 EOF
 ```
 
-Création de l'instance dans pub AZa
+Create instance in public AZa
 
 ```
 aws ec2 run-instances --image-id ami-040ba9174949f6de4 --count 1 --instance-type t2.micro --key-name aws_simplon_test --security-group-ids sg-0ece3dd882dc7fc5b --subnet-id subnet-06dd60661043fc274 --user-data file://tuning_ec2_as_lb.txt
@@ -571,7 +570,7 @@ aws ec2 create-tags --resources "i-09ed1ce5a322cabfe" --tags Key=Name,Value="nod
 ```
 res:i-09ed1ce5a322cabfe
 
-Création de l'instance dans pub AZb
+Create instance in public AZb
 
 ```
 aws ec2 run-instances --image-id ami-040ba9174949f6de4 --count 1 --instance-type t2.micro --key-name aws_simplon_test --security-group-ids sg-0ece3dd882dc7fc5b --subnet-id subnet-0210102fc9a4b3ab8 --user-data file://tuning_ec2_as_lb.txt
@@ -579,7 +578,7 @@ aws ec2 create-tags --resources "i-0b72662e6d3481bbc" --tags Key=Name,Value="nod
 ```
 res:i-0b72662e6d3481bbc
 
-Création du load balancer
+Create load balancer
 
 ```
 aws elbv2 create-load-balancer --name my-load-balancer  --subnets subnet-06dd60661043fc274 subnet-0210102fc9a4b3ab8 --security-groups sg-0ece3dd882dc7fc5b
@@ -588,7 +587,7 @@ aws elbv2 create-target-group --name my-targets --protocol HTTP --port 80 --vpc-
 ```
 res: arn:aws:elasticloadbalancing:eu-west-1:065332230902:targetgroup/my-targets/5d68a137ae5c0e0d
 
-Associer l'instance au LoadBalancer
+Register instance to Load balancer
 
 ```
 aws elbv2 register-targets --target-group-arn arn:aws:elasticloadbalancing:eu-west-1:065332230902:targetgroup/my-targets/5d68a137ae5c0e0d --targets Id=i-09ed1ce5a322cabfe Id=i-0b72662e6d3481bbc
@@ -622,7 +621,7 @@ aws autoscaling describe-auto-scaling-groups --auto-scaling-group-name my-asg-fr
 aws autoscaling attach-load-balancers --auto-scaling-group-name my-asg-from-instance --load-balancer-names my-load-balancer
 ```
 
-# Compte / Organisation
+# Account / Organization
 
 Parler de la landing zone et de towercontrol
 
@@ -633,7 +632,7 @@ Parler de la landing zone et de towercontrol
 
 # Route53
 
-## Contraintes et comportements DNS
+## DNS constraints and behaviors
 
 [https://docs.aws.amazon.com/fr_fr/Route53/latest/DeveloperGuide/DNSBehavior.html](https://docs.aws.amazon.com/fr_fr/Route53/latest/DeveloperGuide/DNSBehavior.html)
 
@@ -642,9 +641,9 @@ Parler de la landing zone et de towercontrol
 * [https://docs.aws.amazon.com/cloudwatch/](https://docs.aws.amazon.com/cloudwatch/)
 * [https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html)
 
-Surveillance basé sur des métrics remonté par l'infra ou même applicative si configuré
+Monitoring based on metrics returned by the infrastructure or even application if configured.
 
-cloudWatch récupère les logs des serveurs et/ou logs applicatifs, les métriques (hyperviseur/CPU/mémoire/...) et d’autres événements, le tout dans une console unique. Les infos peuvent être graphées et exploitées.
+CloudWatch retrieves logs from servers and / or application logs, metrics (hypervisor / CPU / memory / ...) and other events, all in a single console. Information can be graphed and exploited.
 
 # Cloudtrail
 
@@ -652,7 +651,7 @@ cloudWatch récupère les logs des serveurs et/ou logs applicatifs, les métriqu
 
 * [https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-user-guide.html](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-user-guide.html)
 
-Gestion des événements. Genre de syslog linux mais applicable à la console AWS et toutes les actions pouvant y être faite.
+Event manager. A kind of linux syslog but applicable to the AWS console.
 
 # Boto3
 
